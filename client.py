@@ -14,7 +14,7 @@ class GeminiBlogGenerator:
         self.model = genai.GenerativeModel("gemini-1.5-flash")
 
     def system_prompt(self):
-        return "You are the best surgeon and Medical doctor  in the world. Answer like a confident expert in medical science but keep it short and concise"
+        return "You are the best surgeon and Medical doctor  in the world. Answer like a confident expert in medical science and keep answer brief but well formatted and like an experienced Doctor"
 
     def generate(self, user_prompt: str) -> str:
         # Create the model with system instruction
