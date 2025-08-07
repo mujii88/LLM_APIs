@@ -17,15 +17,7 @@
   "routes": [
     {
       "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/frontend",
       "dest": "/frontend.html"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "main.py"
     },
     {
       "src": "/generate",
@@ -33,6 +25,10 @@
     },
     {
       "src": "/docs",
+      "dest": "main.py"
+    },
+    {
+      "src": "/api/(.*)",
       "dest": "main.py"
     },
     {

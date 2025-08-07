@@ -913,6 +913,9 @@
                     ? 'http://127.0.0.1:8000/generate' 
                     : `${window.location.protocol}//${window.location.host}/generate`;
                 
+                console.log('API URL:', apiUrl);
+                console.log('Sending request to:', apiUrl);
+                
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
@@ -946,6 +949,7 @@
                     `;
                 }
             } catch (error) {
+                console.error('Error details:', error);
                 responseIcon.textContent = '🔌';
                 responseTitle.textContent = 'Connection Error';
                 responseContent.innerHTML = `
@@ -953,6 +957,7 @@
                         <p><strong>Connection Error:</strong></p>
                         <p>Make sure your FastAPI server is running and accessible</p>
                         <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Debug Info:</strong> Trying to connect to: ${apiUrl}</p>
                     </div>
                 `;
             } finally {
