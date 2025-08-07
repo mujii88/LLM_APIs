@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Medical AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(147, 51, 234, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #000000 0%, #111827 50%, #1f2937 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Enhanced Animated Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+            background: linear-gradient(45deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+            background: linear-gradient(45deg, rgba(255,255,255,0.06), rgba(255,255,255,0.1));
+        }
+
+        .shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 70%;
+            animation-delay: 1s;
+            background: linear-gradient(45deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
+        }
+
+        .shape:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            top: 50%;
+            left: 5%;
+            animation-delay: 3s;
+            background: linear-gradient(45deg, rgba(255,255,255,0.09), rgba(255,255,255,0.06));
+        }
+
+        .shape:nth-child(6) {
+            width: 70px;
+            height: 70px;
+            top: 30%;
+            left: 85%;
+            animation-delay: 5s;
+            background: linear-gradient(45deg, rgba(255,255,255,0.06), rgba(255,255,255,0.08));
+        }
+
+        .shape:nth-child(7) {
+            width: 110px;
+            height: 110px;
+            top: 70%;
+            left: 15%;
+            animation-delay: 6s;
+            background: linear-gradient(45deg, rgba(255,255,255,0.04), rgba(255,255,255,0.06));
+        }
+
+        .shape:nth-child(8) {
+            width: 50px;
+            height: 50px;
+            top: 15%;
+            left: 50%;
+            animation-delay: 7s;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.7;
+            }
+            25% {
+                transform: translateY(-15px) rotate(90deg) scale(1.1);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translateY(-25px) rotate(180deg) scale(1.05);
+                opacity: 1;
+            }
+            75% {
+                transform: translateY(-10px) rotate(270deg) scale(1.15);
+                opacity: 0.8;
+            }
+        }
+
+        /* Particle Effects */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: particleFloat 15s linear infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 10s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 12s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 14s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 16s; }
+        .particle:nth-child(10) { left: 15%; animation-delay: 18s; }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Split Layout */
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Left Side - Input */
+        .left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Right Side - Response */
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .response-box {
+            width: 100%;
+            height: 100%;
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .response-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 4s infinite;
+        }
+
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #374151;
+            animation: slideInDown 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .response-title {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #f9fafb;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .response-content {
+            flex: 1;
+            font-size: 18px;
+            line-height: 1.9;
+            color: #d1d5db;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .success {
+            border-left: 6px solid #10b981;
+            padding-left: 25px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border-radius: 0 15px 15px 0;
+            margin: 20px 0;
+            animation: successGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes successGlow {
+            0%, 100% {
+                box-shadow: 0 0 0 rgba(16, 185, 129, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            }
+        }
+
+        .error {
+            border-left: 6px solid #ef4444;
+            padding-left: 25px;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border-radius: 0 15px 15px 0;
+            margin: 20px 0;
+        }
+
+        .loading {
+            text-align: center;
+            color: #9ca3af;
+            font-style: italic;
+            animation: pulse 1.5s infinite;
+            padding: 40px;
+        }
+
+        /* Animated Doctor Figure */
+        .doctor-container {
+            position: relative;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .doctor {
+            display: inline-block;
+            font-size: 6em;
+            animation: doctorBounce 2s ease-in-out infinite, doctorGlow 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.7));
+        }
+
+        @keyframes doctorBounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
+        }
+
+        @keyframes doctorGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.7));
+            }
+            50% {
+                filter: drop-shadow(0 0 30px rgba(139, 92, 246, 1)) drop-shadow(0 0 40px rgba(139, 92, 246, 0.8));
+            }
+        }
+
+        .doctor-speech {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            background: rgba(17, 24, 39, 0.95);
+            padding: 15px 20px;
+            border-radius: 25px;
+            font-size: 0.5em;
+            color: #f9fafb;
+            white-space: nowrap;
+            animation: speechBubble 3s ease-in-out infinite;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .doctor-speech::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 35px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid rgba(17, 24, 39, 0.95);
+        }
+
+        @keyframes speechBubble {
+            0%, 100% {
+                opacity: 0.7;
+                transform: scale(0.9);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Enhanced Input Area */
+        .input-container {
+            position: relative;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-out 0.7s both;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            background: rgba(17, 24, 39, 0.95);
+            border-radius: 30px;
+            padding: 10px;
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            animation: inputPulse 2s ease-in-out infinite;
+        }
+
+        .input-wrapper:focus-within {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 30px 60px rgba(139, 92, 246, 0.3),
+                0 0 0 2px rgba(139, 92, 246, 0.5);
+        }
+
+        @keyframes inputPulse {
+            0%, 100% {
+                box-shadow: 
+                    0 20px 40px rgba(0,0,0,0.3),
+                    0 0 0 1px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 
+                    0 25px 50px rgba(139, 92, 246, 0.2),
+                    0 0 0 1px rgba(139, 92, 246, 0.4);
+            }
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8em;
+            color: #8b5cf6;
+            z-index: 2;
+            animation: iconFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% {
+                transform: translateY(-50%) scale(1);
+            }
+            50% {
+                transform: translateY(-50%) scale(1.3);
+            }
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 25px 25px 25px 70px;
+            border: none;
+            border-radius: 25px;
+            font-family: inherit;
+            font-size: 18px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: transparent;
+            outline: none;
+            color: #f9fafb;
+        }
+
+        textarea::placeholder {
+            color: #9ca3af;
+        }
+
+        textarea:focus {
+            outline: none;
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+            }
+        }
+
+        /* Slide In Animation */
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Bounce Animation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Glow Animation */
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.6);
+            }
+        }
+
+        h1 {
+            color: #f9fafb;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 3em;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeIn 1s ease-out 0.3s both;
+            text-shadow: 0 0 40px rgba(139, 92, 246, 0.4);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #d1d5db;
+            margin-bottom: 40px;
+            font-size: 1.3em;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #f9fafb;
+            font-size: 1.4em;
+        }
+
+        button {
+            background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #10b981 100%);
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: 600;
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out 0.9s both;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.5);
+        }
+
+        button:active {
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #6b7280;
+            cursor: not-allowed;
+            transform: none;
+            animation: pulse 2s infinite;
+        }
+
+        .examples {
+            margin-top: 30px;
+            padding: 30px;
+            background: rgba(31, 41, 55, 0.9);
+            border-radius: 25px;
+            border-left: 6px solid #8b5cf6;
+            animation: fadeIn 1s ease-out 1.1s both;
+            backdrop-filter: blur(15px);
+            max-width: 600px;
+        }
+
+        .examples h3 {
+            margin-top: 0;
+            color: #f9fafb;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .example-item {
+            margin: 15px 0;
+            padding: 18px;
+            background: rgba(55, 65, 81, 0.8);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            color: #d1d5db;
+        }
+
+        .example-item:hover {
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateX(10px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25);
+        }
+
+        .example-item:active {
+            transform: translateX(5px);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 4px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .left-panel, .right-panel {
+                flex: none;
+                height: 50vh;
+                min-height: 50vh;
+            }
+            
+            .response-box {
+                height: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .left-panel, .right-panel {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .doctor {
+                font-size: 4.5em;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            textarea {
+                height: 100px;
+                font-size: 16px;
+            }
+
+            .response-title {
+                font-size: 1.8em;
+            }
+
+            .examples {
+                margin-top: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Animated Background -->
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <!-- Particle Effects -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Split Layout -->
+    <div class="container">
+        <!-- Left Panel - Input -->
+        <div class="left-panel">
+            <h1>🏥 AI Medical Assistant</h1>
+            <p class="subtitle">Ask the AI doctor anything about medical conditions, treatments, and health advice</p>
+            
+            <!-- Animated Doctor -->
+            <div class="doctor-container">
+                <div class="doctor">👨‍⚕️</div>
+                <div class="doctor-speech">How can I help you today?</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="prompt">What would you like to ask the AI doctor?</label>
+                <div class="input-wrapper">
+                    <div class="input-icon">💬</div>
+                    <textarea id="prompt" placeholder="Describe your symptoms, ask about treatments, or get medical advice..."></textarea>
+                </div>
+            </div>
+            
+            <button onclick="generateResponse()" id="submitBtn">
+                <span id="buttonText">Ask AI Doctor</span>
+                <span id="spinner" class="spinner" style="display: none;"></span>
+            </button>
+            
+            <div class="examples">
+                <h3>💡 Example Questions:</h3>
+                <div class="example-item" onclick="setExample('What are the symptoms of diabetes?')">
+                    What are the symptoms of diabetes?
+                </div>
+                <div class="example-item" onclick="setExample('What is the best treatment for a headache?')">
+                    What is the best treatment for a headache?
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Right Panel - Response -->
+        <div class="right-panel">
+            <div class="response-box">
+                <div class="response-header">
+                    <div class="response-title">
+                        <span id="responseIcon">🤖</span>
+                        <span id="responseTitle">AI Doctor's Response</span>
+                    </div>
+                </div>
+                <div class="response-content" id="responseContent">
+                    <div style="text-align: center; color: #9ca3af; font-style: italic; padding: 40px;">
+                        <p>Your AI doctor's response will appear here...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add entrance animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.left-panel, .right-panel');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        function setExample(text) {
+            const textarea = document.getElementById('prompt');
+            textarea.value = text;
+            textarea.focus();
+            
+            // Add bounce animation to the textarea
+            textarea.style.animation = 'bounce 0.6s ease';
+            setTimeout(() => {
+                textarea.style.animation = '';
+            }, 600);
+        }
+
+        async function generateResponse() {
+            const prompt = document.getElementById('prompt').value.trim();
+            const submitBtn = document.getElementById('submitBtn');
+            const buttonText = document.getElementById('buttonText');
+            const spinner = document.getElementById('spinner');
+            const responseContent = document.getElementById('responseContent');
+            const responseIcon = document.getElementById('responseIcon');
+            const responseTitle = document.getElementById('responseTitle');
+            
+            if (!prompt) {
+                // Add shake animation for empty input
+                submitBtn.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    submitBtn.style.animation = '';
+                }, 500);
+                alert('Please enter a question!');
+                return;
+            }
+            
+            // Show loading with spinner
+            submitBtn.disabled = true;
+            buttonText.textContent = 'Asking AI Doctor';
+            spinner.style.display = 'inline-block';
+            
+            // Show loading state
+            responseIcon.textContent = '⏳';
+            responseTitle.textContent = 'Processing...';
+            responseContent.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>The AI doctor is analyzing your question...</p>
+                </div>
+            `;
+            
+            try {
+                // Use deployed URL or localhost for development
+                const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                    ? 'http://127.0.0.1:8000/generate' 
+                    : `${window.location.protocol}//${window.location.host}/generate`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_prompt: prompt
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    responseIcon.textContent = '🤖';
+                    responseTitle.textContent = 'AI Doctor\'s Response';
+                    
+                    // Format the response with beautiful styling
+                    const formattedResponse = formatResponse(data.response);
+                    responseContent.innerHTML = `
+                        <div class="success">
+                            ${formattedResponse}
+                        </div>
+                    `;
+                } else {
+                    responseIcon.textContent = '❌';
+                    responseTitle.textContent = 'Error';
+                    responseContent.innerHTML = `
+                        <div class="error">
+                            <p><strong>Error:</strong> ${data.error || 'Unknown error occurred'}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                responseIcon.textContent = '🔌';
+                responseTitle.textContent = 'Connection Error';
+                responseContent.innerHTML = `
+                    <div class="error">
+                        <p><strong>Connection Error:</strong></p>
+                        <p>Make sure your FastAPI server is running and accessible</p>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                submitBtn.disabled = false;
+                buttonText.textContent = 'Ask AI Doctor';
+                spinner.style.display = 'none';
+            }
+        }
+
+        function formatResponse(text) {
+            // Split the response into paragraphs
+            const paragraphs = text.split('\n\n');
+            
+            let formatted = '';
+            
+            paragraphs.forEach((paragraph, index) => {
+                if (paragraph.trim()) {
+                    // Add different styling for different types of content
+                    if (paragraph.includes('Symptoms:') || paragraph.includes('Treatment:') || paragraph.includes('Prevention:')) {
+                        formatted += `<h3 style="color: #8b5cf6; margin: 20px 0 10px 0; font-size: 1.3em;">${paragraph.split(':')[0]}:</h3>`;
+                        formatted += `<p style="margin: 0 0 15px 0; padding-left: 20px; border-left: 3px solid #8b5cf6;">${paragraph.split(':')[1] || paragraph}</p>`;
+                    } else if (paragraph.includes('•') || paragraph.includes('-')) {
+                        // Format lists
+                        const items = paragraph.split('\n').filter(item => item.trim());
+                        formatted += `<ul style="margin: 15px 0; padding-left: 30px;">`;
+                        items.forEach(item => {
+                            if (item.trim()) {
+                                formatted += `<li style="margin: 8px 0; line-height: 1.6;">${item.replace(/^[•\-]\s*/, '')}</li>`;
+                            }
+                        });
+                        formatted += `</ul>`;
+                    } else {
+                        // Regular paragraph
+                        formatted += `<p style="margin: 15px 0; line-height: 1.8; text-align: justify;">${paragraph}</p>`;
+                    }
+                }
+            });
+            
+            return formatted;
+        }
+        
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Allow Enter key to submit
+        document.getElementById('prompt').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                generateResponse();
+            }
+        });
+
+        // Enhanced hover effects to floating shapes
+        document.querySelectorAll('.shape').forEach(shape => {
+            shape.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.3) rotate(45deg)';
+                this.style.transition = 'all 0.3s ease';
+                this.style.filter = 'brightness(1.2)';
+            });
+            
+            shape.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.transition = '';
+                this.style.filter = '';
+            });
+        });
+
+        // Add click effects to particles
+        document.querySelectorAll('.particle').forEach(particle => {
+            particle.addEventListener('click', function() {
+                this.style.transform = 'scale(2)';
+                this.style.opacity = '0';
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.opacity = '';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
